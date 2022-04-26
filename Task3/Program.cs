@@ -3,16 +3,27 @@
 // 6, 1, 33 -> [6, 1, 33]
 // Ввод одной строкой через запятую
 
-Console.WriteLine("Введите числа через запятую");
-string inputString = Console.ReadLine();
+Console.WriteLine(
+    "Введите не менее восьми элементов через запятую (допустимые символы цифры, запятая)."
+);
+string inputString = string.Empty;
+int countElements = 0;
+int expectedElements = 8;
 
-int countNumbers = CountСharacter(inputString, ',') + 1;
+while (countElements < expectedElements)
+{
+    Console.Write($"> {inputString}");
+    inputString += Console.ReadLine();
+    countElements = CountСharacter(inputString, ',') + 1;
+    if (countElements < expectedElements)
+        Console.WriteLine("Недостаточно элементов. Дополните ввод.");
+}
 
 int startPosition = 0;
 int endPosition = 0;
-int[] resultArray = new int[countNumbers];
+int[] resultArray = new int[expectedElements];
 
-for (int i = 0; i < countNumbers; i++)
+for (int i = 0; i < resultArray.Length; i++)
 {
     endPosition = SearchСharacter(inputString, ',', startPosition + 1) - 1;
     if (endPosition < 0)
@@ -25,13 +36,7 @@ for (int i = 0; i < countNumbers; i++)
 }
 
 Console.Write("Результат: ");
-PrintArray(array: resultArray,
-            startSymbol: '[',
-            endSymbol: ']',
-            separator: ", ",
-            endLine: true);
-
-
+PrintArray(resultArray, '[', ']', ", ", true);
 
 int SearchСharacter(string sourceString, char searchСharacter, int startPosition)
 {
@@ -64,7 +69,8 @@ string SubString(string sourceString, int startPosition, int endPosition)
 {
     string result = String.Empty;
 
-    for (int i = startPosition; i <= endPosition; i++) result += sourceString[i];
+    for (int i = startPosition; i <= endPosition; i++)
+        result += sourceString[i];
 
     return result;
 }
